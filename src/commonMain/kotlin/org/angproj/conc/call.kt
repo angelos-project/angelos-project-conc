@@ -18,9 +18,16 @@ import kotlinx.coroutines.*
 import kotlin.time.*
 
 
+/**
+ * Schedules a coroutine to run after a specified delay.
+ *
+ * @param inTime The delay before the coroutine is executed.
+ * @param action The action to be executed after the delay.
+ * @return A [Job] representing the scheduled coroutine.
+ */
 public fun call(
     every: DurationUnit, supervise: Job, action: suspend CoroutineScope.(Duration) -> Unit
-) = CoroutineScope(Dispatchers.Default).async {
+): Deferred<Unit> = CoroutineScope(Dispatchers.Default).async {
     var start = TimeSource.Monotonic.markNow()
     var counter: Long = 0
 

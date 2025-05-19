@@ -16,8 +16,15 @@ package org.angproj.conc
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-public fun task(action: suspend CoroutineScope.() -> Unit) = CoroutineScope(Dispatchers.Default).launch {
+/**
+ * Starts a coroutine that runs the specified action.
+ *
+ * @param action The action to be executed in the coroutine.
+ * @return A [Job] representing the coroutine.
+ * */
+public fun task(action: suspend CoroutineScope.() -> Unit): Job = CoroutineScope(Dispatchers.Default).launch {
     action()
 }.apply { start() }

@@ -17,7 +17,18 @@ package org.angproj.conc
 import kotlinx.coroutines.*
 
 
-public fun loop(block: suspend CoroutineScope.() -> Unit) = CoroutineScope(Dispatchers.Default).async {
+/**
+ * Starts a coroutine that runs the specified block
+ * of code in a loop and yields control to other coroutines
+ * after each iteration. The loop continues until the
+ * coroutine is cancelled. This function is useful for creating
+ * a coroutine that needs to run continuously, such as a game
+ * loop or a background task.
+ *
+ * @param block The block of code to be executed by each iteration of the loop.
+ * @return A [Deferred] representing the coroutine.
+ */
+public fun loop(block: suspend CoroutineScope.() -> Unit): Deferred<Unit> = CoroutineScope(Dispatchers.Default).async {
     do {
         block()
         yield()

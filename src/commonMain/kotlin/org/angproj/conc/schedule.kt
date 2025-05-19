@@ -18,9 +18,16 @@ import kotlinx.coroutines.*
 import kotlin.time.*
 
 
+/**
+ * Schedules a coroutine to run after a specified delay.
+ *
+ * @param inTime The delay before the coroutine is executed.
+ * @param action The action to be executed after the delay.
+ * @return A [Job] representing the scheduled coroutine.
+ */
 public fun schedule(
     inTime: Duration, action: suspend CoroutineScope.() -> Unit
-) = CoroutineScope(Dispatchers.Default).launch {
+): Job = CoroutineScope(Dispatchers.Default).launch {
     delay(inTime)
     if(isActive) action()
 }.apply { start() }

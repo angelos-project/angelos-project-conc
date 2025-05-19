@@ -26,7 +26,7 @@ public interface Steward {
  * Attends to every wakeUp for a specified number of times.
  * The underlying coroutine has to be cancelled manually to break out of the infinite loop.
  * */
-public fun attend(maxCount: Int = Int.MAX_VALUE, action: suspend CoroutineScope.() -> Unit) = object : Steward {
+public fun attend(maxCount: Int = Int.MAX_VALUE, action: suspend CoroutineScope.() -> Unit): Steward = object : Steward {
     init { require(maxCount > 1) }
     private val semaphore: Semaphore = Semaphore(maxCount)
 

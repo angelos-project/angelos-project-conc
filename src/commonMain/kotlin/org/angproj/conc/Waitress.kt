@@ -26,7 +26,7 @@ public interface Waitress {
  * Answers the wakeUp call but is busy until ready.
  * The underlying coroutine has to be cancelled manually to break out of the infinite loop.
  * */
-public fun answer(action: suspend CoroutineScope.() -> Unit) = object : Waitress {
+public fun answer(action: suspend CoroutineScope.() -> Unit): Waitress = object : Waitress {
     private val mutex: Mutex = Mutex()
 
     override val job: Job = CoroutineScope(Dispatchers.Default).async {

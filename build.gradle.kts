@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import java.net.URL
 
 object This {
+    const val kotlinCoroutinesVersion = "1.9.0"
     const val jazzerVersion = "0.24.0"
     const val mockitoVersion = "5.4.0"
 }
@@ -37,13 +38,6 @@ kotlin {
     wasmWasi { nodejs() }
     // Android
     androidTarget {
-        /*compilations.all {
-            compileTaskProvider.configure {
-                compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_1_8)
-                }
-            }
-        }*/
         publishLibraryVariants("release")
     }
     androidNativeArm32()
@@ -74,17 +68,24 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation("org.angproj.aux:angelos-project-aux:0.9.8")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${This.kotlinCoroutinesVersion}")
+        }
+        androidMain.dependencies {
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${This.kotlinCoroutinesVersion}")
+        }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${This.kotlinCoroutinesVersion}")
         }
         jvmTest.dependencies {
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
-            implementation(kotlin("test"))
             implementation("org.mockito.kotlin:mockito-kotlin:${This.mockitoVersion}")
             implementation("com.code-intelligence:jazzer:${This.jazzerVersion}")
             implementation("com.code-intelligence:jazzer-api:${This.jazzerVersion}")
             implementation("com.code-intelligence:jazzer-api:${This.jazzerVersion}")
-
         }
+    }
+    sourceSets.commonMain.dependencies {
+        implementation(kotlin("test"))
     }
 }
 
