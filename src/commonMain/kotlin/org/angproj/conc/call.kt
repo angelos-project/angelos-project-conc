@@ -19,15 +19,17 @@ import kotlin.time.*
 
 
 /**
- * Schedules a coroutine to run after a specified delay.
+ * Supervises a coroutine job at regular intervals. If the job is cancelled,
+ * the action is executed with the elapsed time since the last call.
  *
- * @param inTime The delay before the coroutine is executed.
- * @param action The action to be executed after the delay.
- * @return A [Job] representing the scheduled coroutine.
+ * @param every The time unit for the interval to check the job.
+ * @param supervise The job to be supervised.
+ * @param action The action to be executed at cancellation.
+ * @return A [Job] of the call itself.
  */
 public fun call(
     every: DurationUnit, supervise: Job, action: suspend CoroutineScope.(Duration) -> Unit
-): Deferred<Unit> = CoroutineScope(Dispatchers.Default).async {
+): Job = CoroutineScope(Dispatchers.Default).async {
     var start = TimeSource.Monotonic.markNow()
     var counter: Long = 0
 
@@ -47,4 +49,4 @@ public fun call(
             supervise.isCompleted -> this@async.cancel()
         }
     }
-}.apply { start() }
+}.apply { start() }.job

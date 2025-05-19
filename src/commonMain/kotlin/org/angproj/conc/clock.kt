@@ -30,7 +30,7 @@ import kotlin.time.*
  * */
 public fun clock(
     unit: DurationUnit, ticks: Int, action: suspend CoroutineScope.() -> Unit
-): Deferred<Unit> = CoroutineScope(Dispatchers.Default).async {
+): Job = CoroutineScope(Dispatchers.Default).async {
     var start = TimeSource.Monotonic.markNow()
     var counter: Long = 0
 
@@ -47,4 +47,4 @@ public fun clock(
 
         delay((counter.toDouble() / ticks).toDuration(unit) - elapsed)
     }
-}.apply { start() }
+}.apply { start() }.job

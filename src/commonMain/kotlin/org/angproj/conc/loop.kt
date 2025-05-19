@@ -28,9 +28,9 @@ import kotlinx.coroutines.*
  * @param block The block of code to be executed by each iteration of the loop.
  * @return A [Deferred] representing the coroutine.
  */
-public fun loop(block: suspend CoroutineScope.() -> Unit): Deferred<Unit> = CoroutineScope(Dispatchers.Default).async {
+public fun loop(block: suspend CoroutineScope.() -> Unit): Job = CoroutineScope(Dispatchers.Default).async {
     do {
         block()
         yield()
     } while (isActive)
-}.apply { start() }
+}.apply { start() }.job
