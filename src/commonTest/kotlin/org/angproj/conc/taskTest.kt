@@ -2,14 +2,15 @@ package org.angproj.conc
 
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import kotlin.time.Duration.Companion.microseconds
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
+import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.microseconds
 
 class taskTest {
 
     @Test
-     fun testTask() = runBlocking {
+    fun testTask() = runTest {
         var triggered = false
         val tasked = task {
             triggered = true
@@ -18,7 +19,6 @@ class taskTest {
         delay(1.microseconds)
 
         tasked.join()
-        tasked.cancelAndJoin()
-        check(triggered) { "Task should be triggered, but was not" }
+        assertTrue(triggered)
     }
 }

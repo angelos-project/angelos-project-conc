@@ -24,7 +24,7 @@ kotlin {
     jvmToolchain(19)
 
     jvm()
-    js {
+    /*js {
         browser()
         nodejs()
     }
@@ -35,7 +35,7 @@ kotlin {
         nodejs()
     }
     @OptIn(ExperimentalWasmDsl::class)
-    wasmWasi { nodejs() }
+    wasmWasi { nodejs() }*/
     // Android
     androidTarget {
         publishLibraryVariants("release")

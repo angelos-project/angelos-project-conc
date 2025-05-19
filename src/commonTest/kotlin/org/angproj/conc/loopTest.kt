@@ -3,14 +3,15 @@ package org.angproj.conc
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.job
-import kotlinx.coroutines.runBlocking
-import kotlin.time.Duration.Companion.microseconds
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.time.Duration.Companion.microseconds
 
 class loopTest {
 
     @Test
-    fun testLoop() = runBlocking {
+    fun testLoop() = runTest {
         var counter = 0
         val loop = loop {
             counter++
@@ -22,7 +23,6 @@ class loopTest {
         delay(5.microseconds)
 
         loop.join()
-        loop.cancelAndJoin()
-        check(counter == 5) { "Counter should be 5, but was $counter" }
+        assertEquals(counter, 5)
     }
 }
