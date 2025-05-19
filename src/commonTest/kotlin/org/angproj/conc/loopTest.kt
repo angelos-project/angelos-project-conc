@@ -1,6 +1,5 @@
 package org.angproj.conc
 
-import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.job
 import kotlinx.coroutines.test.runTest
