@@ -17,17 +17,33 @@ package org.angproj.conc
 import kotlinx.coroutines.*
 import kotlin.time.*
 
+
 /**
- * Creates a perpetual clock tha executes a given action
- * at a specified rate of certain ticks per time unit.
- * The clock starts a new coroutine and returns a [Deferred]
- * that can be used to cancel the clock.
+ * Creates a perpetual clock that executes a given action at a specified rate of ticks per time unit.
+ * The clock starts a new coroutine and returns a {@link Job} that can be used to manage its lifecycle.
  *
- * @param unit The unit of time to use for the clock.
- * @param ticks The number of ticks per time unit
- * @param action The action to perform on each tick.
- * @return A [Deferred] that can be used to cancel the clock.
- * */
+ * <p>The clock ensures that the action is executed at regular intervals based on the specified
+ * number of ticks per time unit. If the coroutine is canceled, the clock stops execution.
+ *
+ * @param unit The unit of time to use for the clock (e.g., seconds, milliseconds).
+ * @param ticks The number of ticks per time unit. Determines the frequency of the action.
+ * @param action The action to perform on each tick. This is a suspendable lambda that operates
+ *               within a {@link CoroutineScope}.
+ * @return A {@link Job} representing the clock coroutine. The caller can use this to cancel
+ *         or monitor the clock's execution.
+ *
+ * <p>Example usage:
+ * <pre>{@code
+ * Job clockJob = clock(DurationUnit.SECONDS, 2, () -> {
+ *     System.out.println("Tick");
+ * });
+ * clockJob.invokeOnCompletion(() -> System.out.println("Clock stopped"));
+ * }</pre>
+ *
+ * @see kotlinx.coroutines.CoroutineScope
+ * @see kotlinx.coroutines.Job
+ * @see kotlin.time.DurationUnit
+ */
 public fun clock(
     unit: DurationUnit, ticks: Int, action: suspend CoroutineScope.() -> Unit
 ): Job = CoroutineScope(Dispatchers.Default).async {

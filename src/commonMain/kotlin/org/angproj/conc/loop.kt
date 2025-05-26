@@ -26,7 +26,7 @@ import kotlinx.coroutines.*
  * loop or a background task.
  *
  * @param block The block of code to be executed by each iteration of the loop.
- * @return A [Deferred] representing the coroutine.
+ * @return A [Job] representing the coroutine.
  */
 public fun loop(block: suspend CoroutineScope.() -> Unit): Job = CoroutineScope(Dispatchers.Default).async {
     do {

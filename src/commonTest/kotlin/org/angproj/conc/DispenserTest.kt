@@ -17,10 +17,10 @@ class Counter {
 
 }
 
-class DispenserTest {
+class IntDispenser : Dispenser<Counter>(Counter()) {
+}
 
-    class IntDispenser : Dispenser<Counter>(Counter()) {
-    }
+class DispenserTest {
 
     @Test
     fun testDispenser() = runTest{
@@ -33,7 +33,10 @@ class DispenserTest {
             increment()
         }
         dispenser.dispense {
-            assertEquals(2, getCount())
+            increment()
+        }
+        dispenser.dispense {
+            assertEquals(3, getCount())
         }
     }
 }

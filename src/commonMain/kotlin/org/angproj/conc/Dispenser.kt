@@ -17,12 +17,11 @@ package org.angproj.conc
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
-
 /**
- * A class that provides a mechanism to dispense a resource to a coroutine action.
- * The resource is protected by a mutex, ensuring that only one coroutine can access it at a time.
+ * A generic synchronization primitive that provides a way to dispense a resource to an action.
+ * The resource is protected by a mutex to ensure thread safety.
  *
- * @param E The type of the resource to be dispensed.
+ * @param E The type of the resource being dispensed.
  * @property res The resource to be dispensed.
  */
 public abstract class Dispenser<E>(protected val res: E) {

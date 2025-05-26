@@ -12,12 +12,12 @@ plugins {
     id("org.jetbrains.kotlin.multiplatform") version "1.9.25"
     id("com.android.library") version "8.1.0"
     id("com.vanniktech.maven.publish") version "0.29.0"
-    //id("org.jetbrains.dokka") version "2.0.0"
+    id("org.jetbrains.dokka") version "2.0.0"
     jacoco
 }
 
 group = "org.angproj.conc"
-version = "0.1.0"
+version = "0.1.1-SNAPSHOT"
 
 kotlin {
     explicitApi()
@@ -135,10 +135,10 @@ mavenPublishing {
     }
 }
 
-/*tasks.dokkaHtml {
+tasks.dokkaHtml {
     dokkaSourceSets {
         named("commonMain"){
-            moduleName.set("BigInt - Angelos Project™")
+            moduleName.set("Concurrency primitives - Angelos Project™")
             //includes.from("README.md")
             sourceLink {
                 localDirectory.set(file("src/commonMain/kotlin"))
@@ -147,7 +147,7 @@ mavenPublishing {
             }
         }
     }
-}*/
+}
 
 jacoco {
     toolVersion = "0.8.12"
