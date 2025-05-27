@@ -10,7 +10,7 @@ import kotlin.time.Duration.Companion.microseconds
 class attendTest {
 
     @Test
-    fun testAnswer() = runTest {
+    fun testAttend() = runTest {
         var counter = 0
         val steward = attend {
             counter++

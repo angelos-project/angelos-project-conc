@@ -17,7 +17,7 @@ plugins {
 }
 
 group = "org.angproj.conc"
-version = "0.1.1-SNAPSHOT"
+version = "0.1.2-SNAPSHOT"
 
 kotlin {
     explicitApi()
@@ -162,7 +162,6 @@ tasks {
         dependsOn(withType(Test::class))
         val coverageSourceDirs = arrayOf(
             "src/commonMain",
-            "src/jvmMain"
         )
 
         val buildDirectory = layout.buildDirectory
