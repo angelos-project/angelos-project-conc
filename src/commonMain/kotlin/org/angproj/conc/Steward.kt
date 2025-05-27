@@ -39,7 +39,7 @@ public interface Steward {
      * Each call increments the internal wake-up counter. The steward will execute its action
      * once for each registered wake-up event, ensuring all events are processed in order.
      *
-     * @return The current count of wake-up events after this call.
+     * @return The current count of remaining wake-up events after this call.
      */
     public fun wakeUp(): Int
 

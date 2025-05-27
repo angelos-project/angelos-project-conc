@@ -139,7 +139,7 @@ tasks.dokkaHtml {
     dokkaSourceSets {
         named("commonMain"){
             moduleName.set("Concurrency Utilities - Angelos Project™")
-            //includes.from("README.md")
+            includes.from("Module.md")
             sourceLink {
                 localDirectory.set(file("src/commonMain/kotlin"))
                 remoteUrl.set(URL("https://github.com/angelos-project/angelos-project-conc/tree/master/src/commonMain/kotlin"))

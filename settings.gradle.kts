@@ -16,3 +16,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "angelos-project-conc"
+
+include("Module.md")

@@ -1,5 +1,7 @@
 # Concurrency Utilities
 
+![image](https://angelos-project.com/images/angelos.png "Angelos Project™" 200x200)
+
 This library provides a set of concurrency utilities 
 designed to simplify the use of concurrent execution and
 synchronization in Kotlin for the Angelos Project™.
@@ -16,21 +18,22 @@ any features that are experimental, and which is available across
 all stable Kotlin build targets.
 
 ## Features
-- **task()**: A higher-order function that runs a given lambda as a coroutine exactly once. It can be called from any synchronous code block and executes the lambda asynchronously.
-- **schedule()**: Works like **task()** but also takes a given time duration as an argument and delays execution of the coroutine accordingly.
-- **clock()**: Works like **schedule()** but also receives a number of ticks per time duration as an argument, and executes the lambda periodically at the given time interval.
-- **loop()**: Indifferently from **clock()**, it takes no arguments beyond the lambda. It loops the lambda infinitly, yielding to the event loop after each iteration.
-- **call()**: Takes another coroutine job and a time interval as arguments. It repeatedly checks the coroutine's state, only if the job is cancelled the given lambda is executed.
-- **attend()**: Takes a lambda as a coroutine and returns a Steward instance. The Steward goes to sleep in an infinite loop and executes its lambda on wakeUp(), while executing the coroutine, subsequent wake-up calls are registered and queued for faithful execution.
-- **answer()**: Like **attend()** it returns a similar instance called Waitress. The Waitress differently from the Steward only answers the wakeUp() call once, while subsequent calls are ignored until it goes to sleep again.
-- **Dispenser**: A class that encapsulates a shared resource. It can dispense the resource in a higher-order function wrapped in a `Mutex`, to a single coroutine at a time. Acting as a synchronization primitive for shared resources.
+
+- **task**: Runs a given lambda as a coroutine exactly once. Can be called from any synchronous code block and executes the lambda asynchronously.
+- **schedule**: Schedules a coroutine to run after a specified time delay. Useful for deferred or timed execution.
+- **clock**: Executes a lambda periodically at a given interval, based on a specified number of ticks per time duration.
+- **loop**: Repeatedly executes a lambda in an infinite loop, yielding to the event loop after each iteration.
+- **call**: Monitors another coroutine job and executes a lambda only if the monitored job is cancelled, checking at a specified interval.
+- **attend**: Returns a `Steward` instance. The steward sleeps in an infinite loop and executes its lambda on each `wakeUp()` call. Multiple wake-up calls are queued and processed in order.
+- **answer**: Returns a `Waitress` instance. The waitress executes its lambda once per `wakeUp()` call, ignoring additional calls until it returns to sleep, making it suitable for debouncing or single-shot events.
+- **Dispenser**: A synchronization primitive that encapsulates a shared resource. Dispenses the resource to a single coroutine at a time using a `Mutex`, ensuring safe concurrent access.
 
 ## Installation
 To use the concurrency utilities in your Kotlin project, add the following dependency to your `build.gradle.kts` file:
 
 ```kotlin
 dependencies {
-    implementation("org.angproj.conc:angelos-project-conc:0.1.4-SNAPSHOT")
+    implementation("org.angproj.conc:angelos-project-conc:<X.Y.Z-SNAPSHOT>")
 }
 ```
 
