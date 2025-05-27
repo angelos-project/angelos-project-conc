@@ -15,7 +15,7 @@ any context whether suspending or blocking. Which doesn't use
 any features that are experimental, and which is available across
 all stable Kotlin build targets.
 
-# Features
+## Features
 - **task()**: A higher-order function that runs a given lambda as a coroutine exactly once. It can be called from any synchronous code block and executes the lambda asynchronously.
 - **schedule()**: Works like **task()** but also takes a given time duration as an argument and delays execution of the coroutine accordingly.
 - **clock()**: Works like **schedule()** but also receives a number of ticks per time duration as an argument, and executes the lambda periodically at the given time interval.
@@ -25,17 +25,17 @@ all stable Kotlin build targets.
 - **answer()**: Like **attend()** it returns a similar instance called Waitress. The Waitress differently from the Steward only answers the wakeUp() call once, while subsequent calls are ignored until it goes to sleep again.
 - **Dispenser**: A class that encapsulates a shared resource. It can dispense the resource in a higher-order function wrapped in a `Mutex`, to a single coroutine at a time. Acting as a synchronization primitive for shared resources.
 
-# Installation
+## Installation
 To use the concurrency utilities in your Kotlin project, add the following dependency to your `build.gradle.kts` file:
 
 ```kotlin
 dependencies {
-    implementation("org.angproj.conc:angelos-project-conc:0.1.3-SNAPSHOT")
+    implementation("org.angproj.conc:angelos-project-conc:0.1.4-SNAPSHOT")
 }
 ```
 
-# Contributing
+## Contributing
 We welcome contributions to this project! If you have an idea for a new feature, bug fix, or improvement, please open an issue or submit a pull request.
 
-# License
+## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

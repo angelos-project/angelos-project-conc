@@ -18,26 +18,35 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 
 /**
- * An interface representing a waitress that can be woken up.
- * The implementation should provide a way to wake up the waitress and manage the underlying coroutine job.
+ * A coroutine waitress that executes a specified action in response to explicit wake-up signals,
+ * but only once per sleep cycle, regardless of how many wake-up calls are made while active.
  *
- * The waitress is a sleeping coroutine that performs an action when woken up.
- * If the waitress is already awake, calling [wakeUp] will not have any effect.
+ * The `Waitress` interface is designed for event-driven scenarios where actions should be performed
+ * at most once per trigger, such as debouncing or single-shot event handling. When the `wakeUp` method
+ * is called, the waitress is signaled to execute its action. If it is already awake and processing,
+ * further calls to `wakeUp` are ignored until it returns to its dormant state.
+ *
+ * This mechanism ensures that redundant or rapid-fire wake-up signals do not cause repeated execution,
+ * providing a simple and reliable way to handle events that should not be processed more than once per cycle.
+ *
+ * The underlying coroutine job can be used for lifecycle management, such as cancellation or monitoring.
  */
 public interface Waitress {
 
     /**
-     * Wakes up the waitress.
-     * This method should be called to signal the waitress to perform its action.
-     * It returns `true` if the waitress was successfully woken up, or `false` if it was already awake.
+     * Signals the waitress to wake up and execute its action.
      *
-     * @return `true` if the waitress was woken up, `false` otherwise.
+     * If the waitress is dormant, this call will wake it up and allow it to perform its action.
+     * If the waitress is already awake and processing, the call is ignored and returns `false`.
+     *
+     * @return `true` if the waitress was successfully woken up, `false` if it was already awake.
      */
     public fun wakeUp(): Boolean
 
     /**
-     * The job representing the underlying coroutine that performs the action.
-     * This job can be used to manage the lifecycle of the coroutine, such as cancelling it.
+     * The coroutine job representing the waitress's execution.
+     *
+     * This job can be used to manage the lifecycle of the waitress, such as cancellation or monitoring its status.
      */
     public val job: Job
 }
@@ -77,3 +86,5 @@ public fun answer(action: suspend CoroutineScope.() -> Unit): Waitress = object 
         else -> { mutex.unlock(); true }
     }
 }
+
+

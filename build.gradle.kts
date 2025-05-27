@@ -17,7 +17,7 @@ plugins {
 }
 
 group = "org.angproj.conc"
-version = "0.1.3-SNAPSHOT"
+version = "0.1.4-SNAPSHOT"
 
 kotlin {
     explicitApi()
@@ -138,11 +138,11 @@ mavenPublishing {
 tasks.dokkaHtml {
     dokkaSourceSets {
         named("commonMain"){
-            moduleName.set("Concurrency primitives - Angelos Project™")
+            moduleName.set("Concurrency Utilities - Angelos Project™")
             //includes.from("README.md")
             sourceLink {
                 localDirectory.set(file("src/commonMain/kotlin"))
-                remoteUrl.set(URL("https://github.com/angelos-project/angelos-project-big/tree/master/src/commonMain/kotlin"))
+                remoteUrl.set(URL("https://github.com/angelos-project/angelos-project-conc/tree/master/src/commonMain/kotlin"))
                 remoteLineSuffix.set("#L")
             }
         }

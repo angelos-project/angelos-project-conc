@@ -18,26 +18,35 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 
 /**
- * An interface representing a steward that can be woken up.
- * The implementation should provide a way to wake up the steward and manage the underlying coroutine job.
+ * A coroutine steward that remains dormant until explicitly woken up, executing a specified action
+ * once for each registered wake-up event. The steward ensures that all wake-up signals are faithfully
+ * queued and processed in order, making it suitable for scenarios where every trigger must be handled.
  *
- * The steward is a sleeping coroutine that performs an action when woken up.
- * If the steward is already awake, calling [wakeUp] will increment the wake-up counter.
+ * The [wakeUp] method signals the steward to perform its action. Each call increments an internal counter,
+ * guaranteeing that no wake-up is lost, even if the steward is already active. The steward processes
+ * each wake-up event sequentially, executing the action once per event.
+ *
+ * The underlying coroutine [job] can be used for lifecycle management, such as cancellation or monitoring.
+ *
+ * Typical use cases include event-driven systems where every external trigger must be processed,
+ * such as task queues, notification handlers, or ordered event processing.
  */
 public interface Steward {
 
     /**
-     * Wakes up the steward.
-     * This method should be called to signal the steward to perform its action.
-     * It returns the number of times it has to run the action since the last wake-up.
+     * Signals the steward to wake up and execute its action.
      *
-     * @return The number of wake-ups left to perform.
+     * Each call increments the internal wake-up counter. The steward will execute its action
+     * once for each registered wake-up event, ensuring all events are processed in order.
+     *
+     * @return The current count of wake-up events after this call.
      */
     public fun wakeUp(): Int
 
     /**
-     * The job representing the underlying coroutine that performs the action.
-     * This job can be used to manage the lifecycle of the coroutine, such as cancelling it.
+     * The coroutine job representing the steward's execution.
+     *
+     * This job can be used to manage the lifecycle of the steward, such as cancellation or monitoring its status.
      */
     public val job: Job
 }

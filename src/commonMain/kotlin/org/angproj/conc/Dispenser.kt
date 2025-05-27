@@ -36,11 +36,12 @@ public abstract class Dispenser<E>(protected val res: E) {
     private val mutex: Mutex = Mutex()
 
     /**
-     * Dispenses the resource to the action.
-     * The action is executed in a critical section, ensuring that
-     * only one coroutine can access the resource at a time.
+     * Executes the given action with exclusive access to the resource.
      *
-     * @param action The action to be executed with the resource.
+     * This method suspends until it can acquire the mutex lock, ensuring that the action is executed
+     * in a thread-safe manner. The action is provided as a suspendable lambda that operates on the resource.
+     *
+     * @param action The suspendable lambda to execute with exclusive access to the resource.
      * @return The result of the action.
      */
     public suspend fun<R> dispense(action: suspend E.() -> R): R = mutex.withLock { res.action() }
