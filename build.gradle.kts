@@ -6,6 +6,10 @@ object This {
     const val kotlinCoroutinesVersion = "1.9.0"
     const val jazzerVersion = "0.24.0"
     const val mockitoVersion = "5.4.0"
+
+    const val longName = "Angelos Project Concurrency Utilities"
+    const val longDescription = "Concurrency utilities purposefully built to give a hassle-free experience in developing concurrent programming built on top of kotlinx.coroutines without exposing the programmer to any setup of underlying technology."
+    const val url = "https://github.com/angelos-project/angelos-project-conc"
 }
 
 plugins {
@@ -109,28 +113,29 @@ mavenPublishing {
     coordinates(group.toString(), version.toString())
 
     pom {
-        name.set("My library")
-        description.set("A library.")
-        inceptionYear.set("2024")
-        url.set("https://github.com/kotlin/multiplatform-library-template/")
+        name.set(This.longName)
+        description.set(This.longDescription)
+        inceptionYear.set("2025")
+        url.set(This.url)
+
         licenses {
             license {
-                name.set("XXX")
-                url.set("YYY")
-                distribution.set("ZZZ")
+                name.set("MIT License")
+                url.set("https://opensource.org/licenses/MIT")
+                distribution.set("repo")
             }
         }
         developers {
             developer {
-                id.set("XXX")
-                name.set("YYY")
-                url.set("ZZZ")
+                name.set("Kristoffer Paulsson")
+                email.set("kristoffer.paulsson@talenten.se")
+                url.set("https://github.com/kristoffer-paulsson")
             }
         }
         scm {
-            url.set("XXX")
-            connection.set("YYY")
-            developerConnection.set("ZZZ")
+            url.set(This.url)
+            connection.set("scm:git:git://github.com/angelos-project/angelos-project-conc.git")
+            developerConnection.set("scm:git:ssh://github.com:angelos-project/angelos-project-conc.git")
         }
     }
 }
@@ -138,11 +143,11 @@ mavenPublishing {
 tasks.dokkaHtml {
     dokkaSourceSets {
         named("commonMain"){
-            moduleName.set("Concurrency Utilities - Angelos Project™")
+            moduleName.set(This.longName)
             includes.from("Module.md")
             sourceLink {
                 localDirectory.set(file("src/commonMain/kotlin"))
-                remoteUrl.set(URL("https://github.com/angelos-project/angelos-project-conc/tree/master/src/commonMain/kotlin"))
+                remoteUrl.set(URL(This.url + "/tree/master/src/commonMain/kotlin"))
                 remoteLineSuffix.set("#L")
             }
         }
