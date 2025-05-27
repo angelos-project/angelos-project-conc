@@ -1,6 +1,6 @@
 # Concurrency Utilities
 
-![image](https://angelos-project.com/images/angelos.png "Angelos Project™" 200x200)
+<img src="https://angelos-project.com/images/angelos.png " alt="Angelos Project™" style="width:50%; height:auto; float:right; margin-left:1em; margin-bottom:1em;">
 
 This library provides a set of concurrency utilities 
 designed to simplify the use of concurrent execution and
