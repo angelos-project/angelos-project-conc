@@ -21,16 +21,22 @@ import kotlinx.coroutines.launch
 
 
 /**
- * Starts a coroutine that runs the specified action.
+ * Launches a coroutine that executes the specified action exactly once in the background.
  *
- * This method creates a coroutine using the {@link Dispatchers#Default} context and executes
- * the provided action within it. The coroutine is started immediately after being created.
+ * This function is intended for scenarios where a single asynchronous task needs to be performed
+ * without blocking the calling thread. It creates a coroutine using the [Dispatchers.Default] context,
+ * ensuring efficient execution suitable for most background operations. The coroutine is started
+ * immediately, and the provided suspendable [action] is invoked within its scope.
  *
- * @param action The action to be executed in the coroutine. This is a suspendable lambda
- *               that operates within a {@link CoroutineScope}.
- * @return A [Job] representing the coroutine. The caller can use this to manage
- *         the coroutine's lifecycle, such as canceling or monitoring its completion.
- * @see CoroutineScope
+ * The [task] function abstracts away coroutine setup, making it easy to run asynchronous work
+ * from synchronous or blocking code. It is ideal for offloading computations, I/O, or other
+ * operations that should not interfere with the main thread.
+ *
+ * The returned [Job] can be used to manage the coroutine's lifecycle, including cancellation
+ * or monitoring its completion.
+ *
+ * @param action The suspendable lambda to execute within the coroutine.
+ * @return A [Job] representing the running coroutine.
  */
 public fun task(action: suspend CoroutineScope.() -> Unit): Job = CoroutineScope(Dispatchers.Default).launch {
     action()

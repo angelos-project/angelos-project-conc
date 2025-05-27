@@ -17,15 +17,18 @@ package org.angproj.conc
 import kotlinx.coroutines.*
 import kotlin.time.*
 
-
 /**
- * Supervises a coroutine job at regular intervals. If the job is cancelled,
- * the action is executed with the elapsed time since the last call.
+ * Periodically monitors the state of a given coroutine job and executes a specified action if the job is cancelled.
  *
- * @param every The time unit for the interval to check the job.
- * @param supervise The job to be supervised.
- * @param action The action to be executed at cancellation.
- * @return A [Job] of the call itself.
+ * This function launches a coroutine that checks the status of the `supervise` job at intervals defined by `every`.
+ * If the supervised job is cancelled, the provided `action` lambda is invoked with the elapsed time since the last check.
+ * This is useful for handling cancellation events, such as resource cleanup or custom notification logic, in a timely manner.
+ * The monitoring coroutine stops itself after the action is executed or if the supervised job completes normally.
+ *
+ * @param every The time unit interval at which to check the supervised job's state.
+ * @param supervise The coroutine job to be monitored for cancellation.
+ * @param action The suspendable lambda to execute if the supervised job is cancelled. Receives the elapsed time since the last check.
+ * @return A [Job] representing the monitoring coroutine.
  */
 public fun call(
     every: DurationUnit, supervise: Job, action: suspend CoroutineScope.(Duration) -> Unit

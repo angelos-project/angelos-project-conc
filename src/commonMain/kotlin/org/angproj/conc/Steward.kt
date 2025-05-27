@@ -43,16 +43,19 @@ public interface Steward {
 }
 
 /**
- * Starts a coroutine that runs the specified action repeatedly.
- * The Steward attends to every wake-up call, executing the action for each registered wake-up.
- * If the steward is already awake, calling [wakeUp] will increment the wake-up counter.
+ * Creates a steward coroutine that remains dormant until explicitly woken up, executing the provided action
+ * once for each registered wake-up event.
  *
- * This method creates a coroutine using the [Dispatchers.Default] context and executes
- * the provided action in an infinite loop, allowing it to be woken up by calling [wakeUp].
+ * The steward is ideal for event-driven scenarios where actions should only be performed in response to
+ * external triggers. Each call to [wakeUp] signals the steward to execute its action, and multiple wake-ups
+ * are faithfully queued and processed in order. This ensures that no wake-up is lost, even if the steward
+ * is already active.
  *
- * @param action The action to be executed in the coroutine. This is a suspendable lambda
- *               that operates within a [CoroutineScope].
- * @return A [Steward] instance that can be used to wake up the coroutine.
+ * The returned [Steward] instance provides the [wakeUp] method for signaling and exposes the underlying
+ * coroutine [job] for lifecycle management, such as cancellation or monitoring.
+ *
+ * @param action The suspendable lambda to execute upon each wake-up event.
+ * @return A [Steward] instance for managing and signaling the coroutine.
  */
 public fun attend(action: suspend CoroutineScope.() -> Unit): Steward = object : Steward {
     private val mutex: Mutex = Mutex()

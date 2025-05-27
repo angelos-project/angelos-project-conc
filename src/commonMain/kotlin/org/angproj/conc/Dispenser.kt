@@ -18,11 +18,18 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 /**
- * A generic synchronization primitive that provides a way to dispense a resource to an action.
- * The resource is protected by a mutex to ensure thread safety.
+ * A synchronization primitive that manages exclusive access to a shared resource in concurrent scenarios.
  *
- * @param E The type of the resource being dispensed.
- * @property res The resource to be dispensed.
+ * The `Dispenser` class encapsulates a resource of type [E] and uses a mutex to ensure that only one coroutine
+ * can access the resource at any given time. This prevents race conditions and provides thread safety when
+ * sharing resources between coroutines.
+ *
+ * The [dispense] method allows a suspendable action to be executed with exclusive access to the resource.
+ * The action is performed within a critical section, ensuring serialized access and abstracting away
+ * the underlying synchronization logic.
+ *
+ * @param E The type of the resource being managed.
+ * @property res The resource to be dispensed in a thread-safe manner.
  */
 public abstract class Dispenser<E>(protected val res: E) {
 

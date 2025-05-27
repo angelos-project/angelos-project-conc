@@ -18,15 +18,19 @@ import kotlinx.coroutines.*
 
 
 /**
- * Starts a coroutine that runs the specified block
- * of code in a loop and yields control to other coroutines
- * after each iteration. The loop continues until the
- * coroutine is cancelled. This function is useful for creating
- * a coroutine that needs to run continuously, such as a game
- * loop or a background task.
+ * Launches a coroutine that continuously executes the provided block in an infinite loop,
+ * yielding to the event loop after each iteration to ensure cooperative multitasking.
  *
- * @param block The block of code to be executed by each iteration of the loop.
- * @return A [Job] representing the coroutine.
+ * This function is ideal for scenarios requiring persistent background processing,
+ * such as event-driven logic, polling, or game loops. Unlike time-based scheduling functions,
+ * `loop` does not introduce any delay between iterations except for yielding, allowing for
+ * maximum responsiveness while still sharing execution time with other coroutines.
+ *
+ * The loop runs until the coroutine is cancelled. The returned [Job] can be used to control
+ * or observe the coroutine's lifecycle.
+ *
+ * @param block The suspendable block of code to execute on each iteration.
+ * @return A [Job] representing the running loop coroutine.
  */
 public fun loop(block: suspend CoroutineScope.() -> Unit): Job = CoroutineScope(Dispatchers.Default).async {
     do {

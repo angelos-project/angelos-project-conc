@@ -43,16 +43,20 @@ public interface Waitress {
 }
 
 /**
- * Starts a coroutine that runs the specified action repeatedly.
- * The waitress answers the wake-up call only once per run, skipping any subsequent calls until the next sleep.
- * If the waitress is already awake, calling [wakeUp] will not have any effect.
+ * Creates a waitress coroutine that remains dormant until explicitly woken up, executing the provided action
+ * only once per sleep cycle, regardless of how many wake-up calls are made while it is active.
  *
- * This method creates a coroutine using the [Dispatchers.Default] context and executes
- * the provided action in an infinite loop, allowing it to be woken up by calling [wakeUp].
+ * The waitress is ideal for event-driven scenarios where actions should only be performed in response to
+ * a single trigger per cycle. Each call to [wakeUp] signals the waitress to execute its action, but if the
+ * waitress is already awake, additional wake-up calls are ignored until it returns to sleep. This ensures
+ * that the action is not executed more than once per activation, making it suitable for debouncing or
+ * single-shot event handling.
  *
- * @param action The action to be executed in the coroutine. This is a suspendable lambda
- *               that operates within a [CoroutineScope].
- * @return A [Waitress] instance that can be used to wake up the coroutine.
+ * The returned [Waitress] instance provides the [wakeUp] method for signaling and exposes the underlying
+ * coroutine [job] for lifecycle management, such as cancellation or monitoring.
+ *
+ * @param action The suspendable lambda to execute upon each wake-up event.
+ * @return A [Waitress] instance for managing and signaling the coroutine.
  */
 public fun answer(action: suspend CoroutineScope.() -> Unit): Waitress = object : Waitress {
     private val mutex: Mutex = Mutex()
