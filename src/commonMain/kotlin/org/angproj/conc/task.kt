@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
  *
  * The [task] function abstracts away coroutine setup, making it easy to run asynchronous work
  * from synchronous or blocking code. It is ideal for offloading computations, I/O, or other
- * operations that should not interfere with the main thread.
+ * operations that should not interfere with the org.example.main thread.
  *
  * The returned [Job] can be used to manage the coroutine's lifecycle, including cancellation
  * or monitoring its completion.

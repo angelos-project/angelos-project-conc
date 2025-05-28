@@ -7,7 +7,7 @@ object This {
     const val jazzerVersion = "0.24.0"
     const val mockitoVersion = "5.4.0"
 
-    const val longName = "Angelos Project Concurrency Utilities"
+    const val longName = "Concurrency Utilities - Angelos Project™"
     const val longDescription = "Concurrency utilities purposefully built to give a hassle-free experience in developing concurrent programming built on top of kotlinx.coroutines without exposing the programmer to any setup of underlying technology."
     const val url = "https://github.com/angelos-project/angelos-project-conc"
 }

@@ -14,9 +14,6 @@
  */
 package org.angproj.conc
 
-import kotlinx.coroutines.*
-import kotlinx.coroutines.sync.Mutex
-
 /**
  * A coroutine steward that remains dormant until explicitly woken up, executing a specified action
  * once for each registered wake-up event. The steward ensures that all wake-up signals are faithfully
@@ -31,7 +28,7 @@ import kotlinx.coroutines.sync.Mutex
  * Typical use cases include event-driven systems where every external trigger must be processed,
  * such as task queues, notification handlers, or ordered event processing.
  */
-public interface Steward {
+public interface Steward : Awakable<Int> {
 
     /**
      * Signals the steward to wake up and execute its action.
@@ -41,53 +38,5 @@ public interface Steward {
      *
      * @return The current count of remaining wake-up events after this call.
      */
-    public fun wakeUp(): Int
-
-    /**
-     * The coroutine job representing the steward's execution.
-     *
-     * This job can be used to manage the lifecycle of the steward, such as cancellation or monitoring its status.
-     */
-    public val job: Job
-}
-
-/**
- * Creates a steward coroutine that remains dormant until explicitly woken up, executing the provided action
- * once for each registered wake-up event.
- *
- * The steward is ideal for event-driven scenarios where actions should only be performed in response to
- * external triggers. Each call to [wakeUp] signals the steward to execute its action, and multiple wake-ups
- * are faithfully queued and processed in order. This ensures that no wake-up is lost, even if the steward
- * is already active.
- *
- * The returned [Steward] instance provides the [wakeUp] method for signaling and exposes the underlying
- * coroutine [job] for lifecycle management, such as cancellation or monitoring.
- *
- * @param action The suspendable lambda to execute upon each wake-up event.
- * @return A [Steward] instance for managing and signaling the coroutine.
- */
-public fun attend(action: suspend CoroutineScope.() -> Unit): Steward = object : Steward {
-    private val mutex: Mutex = Mutex()
-    private var counter = 0
-
-    override val job: Job = CoroutineScope(Dispatchers.Default).async {
-        while (isActive) {
-            sleep()
-            while(counter > 0) {
-                counter--
-                action()
-            }
-            yield()
-        }
-    }
-
-    init { job.start() }
-
-    private suspend fun sleep(): Unit = mutex.lock()
-    override fun wakeUp(): Int {
-        counter++
-        if(mutex.isLocked)
-            mutex.unlock()
-        return counter
-    }
+    override fun wakeUp(): Int
 }
