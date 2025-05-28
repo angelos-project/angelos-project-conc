@@ -10,7 +10,7 @@ public fun main(): Unit = runBlocking {
     val job = loop {
         println("Loop iteration: ${++counter}")
         if (counter >= 5) {
-            this.coroutineContext.job.cancel()
+            this.cancel()
         }
     }
 

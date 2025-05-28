@@ -28,6 +28,31 @@ import kotlinx.coroutines.sync.withLock
  * The action is performed within a critical section, ensuring serialized access and abstracting away
  * the underlying synchronization logic.
  *
+ * **Example usage:**
+ * ```kotlin
+ * import kotlinx.coroutines.*
+ * import org.angproj.conc.Dispenser
+ * import org.angproj.conc.loop
+ * import kotlin.random.Random
+ *
+ * public fun main(): Unit = runBlocking {
+ *     val dispenser = object : Dispenser<MutableList<Int>>(MutableList(10) { Random.nextInt() }) {}
+ *
+ *     val job = loop {
+ *         dispenser.dispense {
+ *             if (isEmpty()) {
+ *                 println("No more items to dispense.")
+ *                 this@loop.cancel() // Stop the loop if no items left
+ *             } else {
+ *                 println("Dispensed item: ${removeFirst()}")
+ *             }
+ *         }
+ *     }
+ *
+ *     job.join() // Wait for the loop to finish
+ * }
+ * ```
+ *
  * @param E The type of the resource being managed.
  * @property res The resource to be dispensed in a thread-safe manner.
  */

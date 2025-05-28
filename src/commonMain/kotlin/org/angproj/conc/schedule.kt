@@ -32,6 +32,24 @@ import kotlin.time.*
  * The returned [Job] can be used to manage the lifecycle of the scheduled coroutine, including
  * cancellation or monitoring.
  *
+ * **Example usage:**
+ * ```kotlin
+ * import org.angproj.conc.schedule
+ * import kotlinx.coroutines.runBlocking
+ * import kotlin.time.Duration.Companion.seconds
+ * import kotlin.time.TimeSource
+ *
+ * public fun main(): Unit = runBlocking {
+ *     val start = TimeSource.Monotonic.markNow()
+ *
+ *     val job = schedule(1.5.seconds) {
+ *         println("Scheduled task executed after ${start.elapsedNow()}.")
+ *     }
+ *
+ *     job.join() // Wait for the scheduled task to complete
+ * }
+ * ```
+ *
  * @param inTime The delay duration before the coroutine is executed.
  * @param action The suspendable lambda to execute after the delay.
  * @return A [Job] representing the scheduled coroutine.

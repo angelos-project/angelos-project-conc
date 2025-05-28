@@ -29,6 +29,27 @@ import kotlinx.coroutines.*
  * The loop runs until the coroutine is cancelled. The returned [Job] can be used to control
  * or observe the coroutine's lifecycle.
  *
+ * **Example usage:**
+ * ```kotlin
+ * import org.angproj.conc.loop
+ * import kotlinx.coroutines.*
+ *
+ * public fun main(): Unit = runBlocking {
+ *     var counter = 0
+ *
+ *     println("Starting loop...")
+ *     val job = loop {
+ *         println("Loop iteration: ${++counter}")
+ *         if (counter >= 5) {
+ *             this.cancel()
+ *         }
+ *     }
+ *
+ *     job.join()
+ *     println("Loop finished.")
+ * }
+ * ```
+ *
  * @param block The suspendable block of code to execute on each iteration.
  * @return A [Job] representing the running loop coroutine.
  */

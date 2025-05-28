@@ -35,6 +35,26 @@ import kotlinx.coroutines.launch
  * The returned [Job] can be used to manage the coroutine's lifecycle, including cancellation
  * or monitoring its completion.
  *
+ * **Example usage:**
+ * ```kotlin
+ * import org.angproj.conc.task
+ * import kotlinx.coroutines.runBlocking
+ * import kotlinx.coroutines.delay
+ * import kotlin.time.TimeSource
+ *
+ * public fun main(): Unit = runBlocking {
+ *     val start = TimeSource.Monotonic.markNow()
+ *
+ *     val job = task {
+ *         println("Task started.")
+ *         delay(1000)
+ *         println("Task finished after ${start.elapsedNow()} second.")
+ *     }
+ *
+ *     job.join() // Wait for the task to complete
+ * }
+ * ```
+ *
  * @param action The suspendable lambda to execute within the coroutine.
  * @return A [Job] representing the running coroutine.
  */

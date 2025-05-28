@@ -27,6 +27,34 @@ import kotlin.time.*
  * between executions is calculated by dividing the time unit by the number of ticks, ensuring
  * consistent and predictable timing. If the coroutine is cancelled, the clock stops automatically.
  *
+ * **Example usage:**
+ * ```kotlin
+ * import kotlinx.coroutines.cancelAndJoin
+ * import kotlinx.coroutines.delay
+ * import kotlinx.coroutines.runBlocking
+ * import org.angproj.conc.clock
+ * import kotlin.time.Duration.Companion.seconds
+ * import kotlin.time.DurationUnit
+ * import kotlin.time.TimeSource
+ *
+ *
+ * public fun main(): Unit = runBlocking {
+ *     val ticksPerSecond = 4
+ *     val totalSeconds = 5
+ *     val start = TimeSource.Monotonic.markNow()
+ *     var count = 0
+ *
+ *     val job = clock(DurationUnit.SECONDS, ticksPerSecond) {
+ *         val elapsed = start.elapsedNow()
+ *         count++
+ *         println("Tick $count! Elapsed time: $elapsed")
+ *     }
+ *
+ *     delay(totalSeconds.seconds)
+ *     job.cancelAndJoin()
+ * }
+ * ```
+ *
  * @param unit The unit of time to use for the clock (e.g., seconds, milliseconds).
  * @param ticks The number of ticks per time unit, determining the frequency of execution.
  * @param action The suspendable lambda to execute on each tick.

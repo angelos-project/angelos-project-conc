@@ -21,7 +21,7 @@ plugins {
 }
 
 group = "org.angproj.conc"
-version = "0.1.4-SNAPSHOT"
+version = "0.1.5-SNAPSHOT"
 
 kotlin {
     explicitApi()

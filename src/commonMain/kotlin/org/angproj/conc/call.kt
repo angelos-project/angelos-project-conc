@@ -25,6 +25,33 @@ import kotlin.time.*
  * This is useful for handling cancellation events, such as resource cleanup or custom notification logic, in a timely manner.
  * The monitoring coroutine stops itself after the action is executed or if the supervised job completes normally.
  *
+ * **Example usage:**
+ * ```kotlin
+ * import kotlinx.coroutines.delay
+ * import kotlinx.coroutines.runBlocking
+ * import org.angproj.conc.call
+ * import org.angproj.conc.schedule
+ * import kotlin.time.Duration.Companion.seconds
+ * import kotlin.time.DurationUnit
+ *
+ * public fun main(): Unit = runBlocking {
+ *     val scheduledJob = schedule(5.seconds) {
+ *         println("Scheduled task executed.")
+ *     }
+ *
+ *     val monitorJob = call(DurationUnit.SECONDS, scheduledJob) { elapsed ->
+ *         println("Scheduled job was cancelled after ${elapsed}.")
+ *     }
+ *
+ *     // Cancel the scheduled job after 2 seconds to trigger the call action
+ *     delay(2.seconds)
+ *     scheduledJob.cancel()
+ *
+ *     monitorJob.join()
+ *     println("Monitor finished.")
+ * }
+ * ```
+ *
  * @param every The time unit interval at which to check the supervised job's state.
  * @param supervise The coroutine job to be monitored for cancellation.
  * @param action The suspendable lambda to execute if the supervised job is cancelled. Receives the elapsed time since the last check.
