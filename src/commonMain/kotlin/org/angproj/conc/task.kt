@@ -47,7 +47,7 @@ import kotlinx.coroutines.launch
  *
  *     val job = task {
  *         println("Task started.")
- *         delay(1000)
+ *         delay(1.seconds)
  *         println("Task finished after ${start.elapsedNow()} second.")
  *     }
  *

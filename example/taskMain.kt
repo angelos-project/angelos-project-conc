@@ -3,6 +3,7 @@ package org.example
 import org.angproj.conc.task
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.TimeSource
 
 public fun main(): Unit = runBlocking {
@@ -10,7 +11,7 @@ public fun main(): Unit = runBlocking {
 
     val job = task {
         println("Task started.")
-        delay(1000)
+        delay(1.seconds)
         println("Task finished after ${start.elapsedNow()} second.")
     }
 

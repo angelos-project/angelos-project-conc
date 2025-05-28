@@ -20,10 +20,10 @@ import kotlin.time.*
 /**
  * Periodically monitors the state of a given coroutine job and executes a specified action if the job is cancelled.
  *
- * This function launches a coroutine that checks the status of the `supervise` job at intervals defined by `every`.
- * If the supervised job is cancelled, the provided `action` lambda is invoked with the elapsed time since the last check.
+ * This function launches a coroutine that checks the status of the `monitor` job at intervals defined by `every`.
+ * If the monitored job is cancelled, the provided `action` lambda is invoked with the elapsed time since the last check.
  * This is useful for handling cancellation events, such as resource cleanup or custom notification logic, in a timely manner.
- * The monitoring coroutine stops itself after the action is executed or if the supervised job completes normally.
+ * The monitoring coroutine stops itself after the action is executed or if the monitored job completes normally.
  *
  * **Example usage:**
  * ```kotlin
@@ -52,13 +52,13 @@ import kotlin.time.*
  * }
  * ```
  *
- * @param every The time unit interval at which to check the supervised job's state.
- * @param supervise The coroutine job to be monitored for cancellation.
- * @param action The suspendable lambda to execute if the supervised job is cancelled. Receives the elapsed time since the last check.
+ * @param every The time unit interval at which to check the monitored job's state.
+ * @param monitor The coroutine job to be monitored for cancellation.
+ * @param action The suspendable lambda to execute if the monitored job is cancelled. Receives the elapsed time since the last check.
  * @return A [Job] representing the monitoring coroutine.
  */
 public fun call(
-    every: DurationUnit, supervise: Job, action: suspend CoroutineScope.(Duration) -> Unit
+    every: DurationUnit, monitor: Job, action: suspend CoroutineScope.(Duration) -> Unit
 ): Job = CoroutineScope(Dispatchers.Default).async {
     var start = TimeSource.Monotonic.markNow()
     var counter: Long = 0
@@ -75,8 +75,8 @@ public fun call(
         delay(counter.toDuration(every) - elapsed)
 
         when {
-            supervise.isCancelled -> action(elapsed).also { this@async.cancel() }
-            supervise.isCompleted -> this@async.cancel()
+            monitor.isCancelled -> action(elapsed).also { this@async.cancel() }
+            monitor.isCompleted -> this@async.cancel()
         }
     }
 }.apply { start() }.job
