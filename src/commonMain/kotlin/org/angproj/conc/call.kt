@@ -15,7 +15,10 @@
 package org.angproj.conc
 
 import kotlinx.coroutines.*
-import kotlin.time.*
+import kotlin.time.Duration
+import kotlin.time.DurationUnit
+import kotlin.time.TimeSource
+import kotlin.time.toDuration
 
 /**
  * Periodically monitors the state of a given coroutine job and executes a specified action if the job is cancelled.

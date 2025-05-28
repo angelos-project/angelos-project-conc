@@ -15,7 +15,9 @@
 package org.angproj.conc
 
 import kotlinx.coroutines.*
-import kotlin.time.*
+import kotlin.time.DurationUnit
+import kotlin.time.TimeSource
+import kotlin.time.toDuration
 
 
 /**
