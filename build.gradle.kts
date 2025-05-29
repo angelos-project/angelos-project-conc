@@ -4,8 +4,6 @@ import java.net.URL
 
 object This {
     const val kotlinCoroutinesVersion = "1.9.0"
-    const val jazzerVersion = "0.24.0"
-    const val mockitoVersion = "5.4.0"
 
     const val longName = "Concurrency Utilities - Angelos Project™"
     const val longDescription = "Concurrency utilities purposefully built to give a hassle-free experience in developing concurrent programming built on top of kotlinx.coroutines without exposing the programmer to any setup of underlying technology."
@@ -21,7 +19,7 @@ plugins {
 }
 
 group = "org.angproj.conc"
-version = "0.1.6-SNAPSHOT"
+version = "0.1.7-SNAPSHOT"
 
 kotlin {
     explicitApi()
@@ -74,22 +72,19 @@ kotlin {
         commonMain.dependencies {
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${This.kotlinCoroutinesVersion}")
         }
-        androidMain.dependencies {
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${This.kotlinCoroutinesVersion}")
-        }
         commonTest.dependencies {
             implementation(kotlin("test"))
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${This.kotlinCoroutinesVersion}")
         }
-        jvmTest.dependencies {
+        androidMain.dependencies {
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${This.kotlinCoroutinesVersion}")
+        }
+        /*jvmTest.dependencies {
             implementation("org.mockito.kotlin:mockito-kotlin:${This.mockitoVersion}")
             implementation("com.code-intelligence:jazzer:${This.jazzerVersion}")
             implementation("com.code-intelligence:jazzer-api:${This.jazzerVersion}")
             implementation("com.code-intelligence:jazzer-api:${This.jazzerVersion}")
-        }
-    }
-    sourceSets.commonMain.dependencies {
-        implementation(kotlin("test"))
+        }*/
     }
 }
 
@@ -189,5 +184,3 @@ tasks {
         }
     }
 }
-
-// https://www.tomaszezula.com/unlocking-test-coverage-in-kotlin-multiplatform-with-jacoco-and-github-actions-part-1/
